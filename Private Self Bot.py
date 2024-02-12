@@ -39,7 +39,7 @@ def Error_Line(msg):
 def authentication():
     global remaining_days
     # Get HWID (Hardware ID)
-    change_window_title("[Private Self] | [Authentication]")
+    change_window_title("[Private Self] - Authentication")
     hwid = hashlib.sha256(subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip().encode()).hexdigest()
 
     # Get Local IP address
@@ -112,7 +112,7 @@ def read_settings(settings_file_path):
         return None
     
 def create_settings():
-    change_window_title(f"[Private Self] | [Setup]") 
+    change_window_title(f"[Private Self] - Setup") 
     try:
         questions = [
             "What is your name?: ",
@@ -155,8 +155,9 @@ def create_settings():
 
 def create_preset_commands():
     command_list = [
-        "https://cdn.discordapp.com/attachments/963580374083067985/1205254994455171213/utility.py?ex=65d7b42f&is=65c53f2f&hm=66dbb264ab625c2fbdaf833c5cf0738645fc2c035876e8185e0e41056bd67fc1&",
-        "https://cdn.discordapp.com/attachments/963580374083067985/1205254979149897748/troll.py?ex=65d7b42b&is=65c53f2b&hm=e8a03deea368d1dc307af2c59710730f9a3077101981e44a8af10e6ae866af39&"
+        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405515849105418/utility.py?ex=65dbe3b0&is=65c96eb0&hm=0d69fbe46b48cb08d7ec3b82905ecc969e81f7cbdc7898742f8462ffa4da5f70&", # UTILITY COMMANDS
+        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405534031286342/troll.py?ex=65dbe3b5&is=65c96eb5&hm=2b22b546c9a44d422b98e4fbdd4bfd0aabf3ede8527049549d537ee6082f50d5&", # TROLL COMMANDS
+        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405547348459520/misc.py?ex=65dbe3b8&is=65c96eb8&hm=31e301a6680487ebcced8bcc4ed786b33b7fcf181a136dfe94bcec6f74fc7ff1&" # MISC COMMANDS
     ]
     
     directory = "./Configuration/Commands"
@@ -180,14 +181,17 @@ def create_preset_commands():
         else:
             pass
                 
-    
-    
 
 def load_cogs(private, prefix):
     for filename in os.listdir('./Configuration/Commands'):
         if filename.endswith('.py'):
             private.load_extension(f'Configuration.Commands.{filename[:-3]}')
 
+def changelog():
+    clear()
+    change_window_title("[Private Self] - Changelog")
+    changelog = requests.get("https://raw.githubusercontent.com/WonderlandDigital/Private-Self/main/changelog.md").text
+    print("\n", changelog)
             
 def main():
     clear()    
@@ -210,14 +214,16 @@ def main():
         @private.event
         async def on_ready():
             clear()
-            change_window_title("[Private Self] | Retrieving necessary files")
+            change_window_title("[Private Self] - Retrieving necessary files")
             Line(f"Hi, {privatename} welcome to Private Self V{version}.\n      The program will start shortly.")
             time.sleep(2)
+            changelog()
+            time.sleep(3)
 
             
-            change_window_title(f"[Private Self] | [Logged in as: {private.user.name}] | [Guild Count: {len(private.guilds)}] | [Remaining Days: {remaining_days}]")
+            change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}]")
             clear()
-            print(logo, f"\n\n       [V{version}]\n")
+            print(logo, f"             [V{version}]\n")
             print(f"Logged in as {private.user.name}")
             print(f"We support custom self-bot commands, use {prefix} help to get started.")
             load_cogs(private, prefix)
@@ -240,10 +246,13 @@ def main():
 try:
     colorama.init()
     auth_result = authentication()
+    
     if not auth_result:
         time.sleep(10)
         sys.exit()
+        
     else:
         main()
+        
 except Exception as e:
     print(e)
