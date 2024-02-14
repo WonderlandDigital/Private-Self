@@ -273,18 +273,6 @@ def main():
             print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] We support custom self-bot commands, use {prefix} custom_command to get started.")
             load_cogs(private, prefix)
 
-        @private.event()
-        async def on_message(message):
-            if message.author == private.user:
-                if message.content.startswith(prefix):
-                    command_usage += 1
-                else:
-                    return
-            
-                    
-                
-        
-
 
 
                     
