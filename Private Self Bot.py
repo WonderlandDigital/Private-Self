@@ -244,7 +244,7 @@ def main():
                 async with message.channel.typing():
                     time.sleep(1)
                     msg = await message.reply(message_to_reply)
-                    print(Fore.LIGHTRED_EX + f"\n{current_time}", ">>", Fore.RED + "PING DETECTED", Fore.LIGHTRED_EX + "<<", f"\nAuthor: {message.author}\nChannel: {message.guild.name}\nChannel ID: {message.channel.id}\nMessage {message.content}\n")
+                    print(Fore.LIGHTRED_EX + f"\n", ">>", Fore.RED + "PING DETECTED", Fore.LIGHTRED_EX + "<<", f"\nAuthor: {message.author}\nChannel: {message.guild.name}\nChannel ID: {message.channel.id}\nMessage {message.content}\n")
                     time.sleep(2)
                     await msg.delete()
                     
