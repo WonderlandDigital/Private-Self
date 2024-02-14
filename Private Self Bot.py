@@ -264,8 +264,8 @@ def main():
             change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}]")
             clear()
             print(logo, f"             [V{version}]\n")
-            print(f"Logged in as {private.user.name}")
-            print(f"We support custom self-bot commands, use {prefix} help to get started.")
+            print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] Logged in as {private.user.name}")
+            print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] We support custom self-bot commands, use {prefix} custom_command to get started.")
             load_cogs(private, prefix)
 
 
