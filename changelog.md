@@ -5,3 +5,5 @@
 
 2024-02-14
 - Implemented the automatic ping reply Command.
+- Added the playing command
+- Added Userinfo command
