@@ -279,7 +279,6 @@ def main():
             if message.author == private.user:
                 if message.content.startswith(prefix):
                     command_usage += 1
-                    change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}] | Command Usage: {command_usage}")
                 else:
                     return
             
