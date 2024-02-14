@@ -68,7 +68,10 @@ def authentication():
                 return remaining_days
                 return True
             else:
-                Error_Line(f"Authentication failed due to expiration {str(remaining_days)[1:]} day ago!\n")
+                if remaining_days > -1:
+                    Error_Line(f"Authentication failed due to expiration {str(remaining_days)[1:]} days ago!\n")
+                else:
+                    Error_Line(f"Authentication failed due to expiration {str(remaining_days)[1:]} day ago!\n")
                 return False
                 
             
