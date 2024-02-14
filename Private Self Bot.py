@@ -99,7 +99,7 @@ def read_settings(settings_file_path):
             'Do you want to auto reply to messages?': auto_reply,
             'Want to snipe Nitro gifts?': nitro_gifts,
             'Want to detect pings?': ping_detection,
-            'How would you like to reply to pings?': f'{message_to_reply}'
+            'How would you like to reply to pings?': message_to_reply
         }
         os.makedirs(os.path.dirname(settings_file_path), exist_ok=True)
         with open(settings_file_path, 'w') as file:
@@ -211,6 +211,10 @@ def main():
         nitro_sniper = config.get("Want to snipe Nitro gifts?", False)
         ping_detection = config.get("Want to detect pings?", False)
         custom_snipe = config.get('Custom Snipe Message?', '')
+        try:
+            message_to_reply = config.get('How would you like to reply to pings?', '')
+        except Exception:
+            pass
 
         private = commands.Bot(command_prefix=prefix, self_bot=True, intents=None)
         
@@ -243,7 +247,7 @@ def main():
                 log.close()
                 async with message.channel.typing():
                     time.sleep(1)
-                    msg = await message.reply(message_to_reply)
+                    msg = await message.reply(f"{message_to_reply}")
                     print(Fore.LIGHTRED_EX + f"\n", ">>", Fore.RED + "PING DETECTED", Fore.LIGHTRED_EX + "<<", f"\nAuthor: {message.author}\nChannel: {message.guild.name}\nChannel ID: {message.channel.id}\nMessage {message.content}\n")
                     time.sleep(2)
                     await msg.delete()
