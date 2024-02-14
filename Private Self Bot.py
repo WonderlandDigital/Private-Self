@@ -260,7 +260,7 @@ def main():
         async def on_ready():
             clear()
             changelog()
-            time.sleep(3)
+            time.sleep(1.784)
 
             
             change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}]")
