@@ -158,9 +158,12 @@ def create_settings():
 
 def create_preset_commands():
     command_list = [
-        "https://cdn.discordapp.com/attachments/1207233579256512555/1207241369039405126/utility.py?ex=65deee23&is=65cc7923&hm=494b85636d92004d7c7abdd17610e9060a98f715be4ccf79872f1ac3ef64c91e&", # UTILITY COMMANDS
-        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405534031286342/troll.py?ex=65dbe3b5&is=65c96eb5&hm=2b22b546c9a44d422b98e4fbdd4bfd0aabf3ede8527049549d537ee6082f50d5&", # TROLL COMMANDS
-        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405547348459520/misc.py?ex=65dbe3b8&is=65c96eb8&hm=31e301a6680487ebcced8bcc4ed786b33b7fcf181a136dfe94bcec6f74fc7ff1&" # MISC COMMANDS
+        # UTILITY COMMANDS
+        "https://cdn.discordapp.com/attachments/1207233579256512555/1207242569575047238/utility.py?ex=65deef42&is=65cc7a42&hm=daafeceeab590e98d977ba2f63dea82c926d1326104482e9f4c1bbbb57d08768&",
+        # TROLL COMMANDS
+        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405534031286342/troll.py?ex=65dbe3b5&is=65c96eb5&hm=2b22b546c9a44d422b98e4fbdd4bfd0aabf3ede8527049549d537ee6082f50d5&",
+        # MISC COMMANDS
+        "https://cdn.discordapp.com/attachments/1094392564200767499/1206405547348459520/misc.py?ex=65dbe3b8&is=65c96eb8&hm=31e301a6680487ebcced8bcc4ed786b33b7fcf181a136dfe94bcec6f74fc7ff1&" 
     ]
     
     directory = "./Configuration/Commands"
