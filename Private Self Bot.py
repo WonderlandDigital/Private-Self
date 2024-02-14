@@ -30,6 +30,9 @@ logo = requests.get('https://pastebin.com/raw/dwnnXdY9').text
 version = "1"
 remaining_days = ""
 
+# Command Tracker
+command_usage = 0
+
 # Clear the screen.
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -263,7 +266,7 @@ def main():
             time.sleep(1.784)
 
             
-            change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}]")
+            change_window_title(f"[Private Self] - [Logged in as: {private.user.name}] - [Guild Count: {len(private.guilds)}] - [Remaining Days: {remaining_days}] | Command Usage: {command_usage}")
             clear()
             print(logo, f"             [V{version}]\n")
             print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] Logged in as {private.user.name}")
