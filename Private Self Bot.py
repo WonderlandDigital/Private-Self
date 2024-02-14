@@ -77,13 +77,15 @@ def authentication():
             
             if remaining_days > 0:
                 Line(f"Remaining Days: {remaining_days}\n")
-                time.sleep(2)
+                time.sleep(0.5)
                 return remaining_days
                 return True
             else:
                 if remaining_days < -1:
+                    time.sleep(2)
                     Error_Line(f"Authentication failed due to expiration {str(remaining_days)[1:]} days ago!\n")
                 else:
+                    time.sleep(2)
                     Error_Line(f"Authentication failed due to expiration {str(remaining_days)[1:]} day ago!\n")
                 return False
                 
@@ -181,6 +183,9 @@ def create_settings():
 
 # Download preset commands from cloud.
 def create_preset_commands():
+    change_window_title("[Private Self] - Retrieving necessary files")
+    Line(f" Welcome to Private Self.\n     The program will start shortly.")
+    
     command_list = [
         # UTILITY COMMANDS
         "https://cdn.discordapp.com/attachments/1207233579256512555/1207242569575047238/utility.py?ex=65deef42&is=65cc7a42&hm=daafeceeab590e98d977ba2f63dea82c926d1326104482e9f4c1bbbb57d08768&",
@@ -254,9 +259,6 @@ def main():
         @private.event
         async def on_ready():
             clear()
-            change_window_title("[Private Self] - Retrieving necessary files")
-            Line(f"Hi, {privatename} welcome to Private Self V{version}.\n      The program will start shortly.")
-            time.sleep(2)
             changelog()
             time.sleep(3)
 
