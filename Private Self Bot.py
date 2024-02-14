@@ -270,7 +270,7 @@ def main():
             clear()
             print(logo, f"             [V{version}]\n")
             print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] Logged in as {private.user.name}")
-            print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] We support custom self-bot commands, use {prefix} custom_command to get started.")
+            print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] We support custom self-bot commands, use {prefix} custom_command to get started.\n")
             load_cogs(private, prefix)
 
 
