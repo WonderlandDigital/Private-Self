@@ -235,10 +235,10 @@ def main():
 
         @private.listen("on_message")
         async def automaticpingreply(message):
-            now = datetime.datetime.now()
-            current_time = now.strftime("%H:%M:%S")
+            #now = datetime.datetime.now()
+            #current_time = now.strftime("%H:%M:%S")
             if f'<@{private.user.id}>' in str(message.content):
-                log = open(f'Configuration/Logs/{now}-pings.txt', 'a', encoding="utf-8")
+                log = open(f'Configuration/Logs/pings.txt', 'a', encoding="utf-8")
                 log.write(f"\n{current_time} >>PING DETECTED<<\nMessage: {message.content}\nAuthor: {message.author}\nServer: {message.guild.name}\nChannel Name: {message.channel.name}\nChannel ID: {message.channel.id}\n")
                 log.close()
                 async with message.channel.typing():
