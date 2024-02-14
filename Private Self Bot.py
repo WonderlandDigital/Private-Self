@@ -104,7 +104,6 @@ def authentication():
 # Change the window title.
 def change_window_title(msg):
     ctypes.windll.kernel32.SetConsoleTitleW(f"{msg}")
-    
 
 # Read the Settings.json file.
 def read_settings(settings_file_path):
@@ -274,6 +273,13 @@ def main():
             print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] We support custom self-bot commands, use {prefix} custom_command to get started.")
             load_cogs(private, prefix)
 
+        @private.event()
+        async def on_message(message):
+            if message.author == private.user:
+                if message.content.startswith(prefix):
+                    command_usage += 1
+                else:
+                    return
             
                     
                 
