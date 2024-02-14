@@ -23,23 +23,31 @@ from discord.ext import commands
 processed_messages = set()
 actions_completed = False
 cooldown_active = False
+
+# This is the Private Self Logo.
 logo = requests.get('https://pastebin.com/raw/dwnnXdY9').text
+
 version = "1"
 remaining_days = ""
 
+# Clear the screen.
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
+# UI Normal Print.
 def Line(msg):
     print(f"[{Fore.LIGHTGREEN_EX} + {Fore.RESET}] {msg}", end='')
-
+    
+# UI Error Prints.
 def Error_Line(msg):
     print(f"[{Fore.RED} X {Fore.RESET}]", msg, end='')
 
+# User Authentication.
 def authentication():
     global remaining_days
-    # Get HWID (Hardware ID)
     change_window_title("[Private Self] - Authentication")
+    
+    # Get HWID (Hardware ID)
     hwid = hashlib.sha256(subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip().encode()).hexdigest()
 
     # Get Local IP address
@@ -54,7 +62,11 @@ def authentication():
 
     # Search for IP and HWID in the text
     pattern = re.compile(r'(\w+):(\d+\.\d+\.\d+\.\d+):([a-fA-F0-9]+):(\d{4}-\d{2}-\d{2})')
+    
+    # Searches the pattern to find a match in data.
     match = pattern.search(auth_data)
+
+    # While there is a match.
     while match:
         username, stored_ip, stored_hwid, expiration_date = match.groups()
         if ip_address == stored_ip and hwid == stored_hwid:
@@ -62,6 +74,7 @@ def authentication():
             # Calculate remaining days
             expiration_datetime = datetime.strptime(expiration_date, "%Y-%m-%d")
             remaining_days = (expiration_datetime - datetime.now()).days
+            
             if remaining_days > 0:
                 Line(f"Remaining Days: {remaining_days}\n")
                 time.sleep(2)
@@ -78,19 +91,25 @@ def authentication():
         # Search for next IP and HWID in the text
         match = pattern.search(auth_data, match.end())
 
-    print("Authentication failed!")
+    Error_Line("Authentication failed!")
     return False
     
     
 
-
+# Change the window title.
 def change_window_title(msg):
     ctypes.windll.kernel32.SetConsoleTitleW(f"{msg}")
-  
+
+# Read the Settings.json file.
 def read_settings(settings_file_path):
 
+    # If the Settings.Json file is not found!
     if not os.path.exists(settings_file_path):
+        
+        # Prompt the user to create their own settings.
         name, prefix, discord_password, auto_reply, ping_detection, nitro_gifts, message_to_reply, _token = create_settings()
+        
+        
         default_settings = {
             'Who are you?': f'{name}',
             'Token?': f'{_token}',
@@ -101,8 +120,13 @@ def read_settings(settings_file_path):
             'Want to detect pings?': ping_detection,
             'How would you like to reply to pings?': message_to_reply
         }
+
+        # Making the Settings.json directory.
         os.makedirs(os.path.dirname(settings_file_path), exist_ok=True)
+        
         with open(settings_file_path, 'w') as file:
+            
+            # Write the default_settings to the Settings.json
             json.dump(default_settings, file, indent=4)
 
     try:
@@ -154,8 +178,8 @@ def create_settings():
     answers[3] = True if answers[3].lower() == "y" else False
 
     return answers[0], answers[1], answers[2], answers[3], answers[5], nitro_gifts, auto_reply, answers[7]
-    
 
+# Download preset commands from cloud.
 def create_preset_commands():
     command_list = [
         # UTILITY COMMANDS
@@ -172,33 +196,39 @@ def create_preset_commands():
         os.makedirs(directory)
     else:
         pass
-        
+
+    # Download the attatchments from the URL.
     for url in command_list:
         filename = os.path.join(directory, url.split('/')[-1].split('?')[0])
         if not os.path.exists(filename):
             response = requests.get(url, stream=True)
+            
+            # If the request is valid, save the file.
             if response.status_code == 200:
                 with open(filename, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=1024):
                         if chunk:
                             f.write(chunk)
+
+            # If any error encounters, it will print to console which module caused the error.
             else:
                 Error_Line(f"There was an error downloading required modules for file: {filename}")
         else:
             pass
                 
-
+# Load commands
 def load_cogs(private, prefix):
     for filename in os.listdir('./Configuration/Commands'):
         if filename.endswith('.py'):
             private.load_extension(f'Configuration.Commands.{filename[:-3]}')
-
+            
+# Get Changelog details.
 def changelog():
     clear()
     change_window_title("[Private Self] - Changelog")
     changelog = requests.get("https://raw.githubusercontent.com/WonderlandDigital/Private-Self/main/changelog.md").text
     print("\n", changelog)
-            
+
 def main():
     clear()    
     settings_file_path = os.path.join(os.path.dirname(__file__), 'Configuration', 'Settings.json')
@@ -248,13 +278,18 @@ def main():
         private.run(token)
 
 try:
+    # Intiliaze colorma
     colorama.init()
-    auth_result = authentication()
     
+    # Auth_result will either return True or False
+    auth_result = authentication()
+
+    # If Auth fails, close the program.
     if not auth_result:
         time.sleep(10)
         sys.exit()
-        
+
+    # If auth succeds, continue.
     else:
         main()
         
