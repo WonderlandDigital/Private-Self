@@ -90,7 +90,7 @@ def change_window_title(msg):
 def read_settings(settings_file_path):
 
     if not os.path.exists(settings_file_path):
-        name, prefix, discord_password, auto_reply, ping_detection, nitro_gifts, custom_snipe_message, _token = create_settings()
+        name, prefix, discord_password, auto_reply, ping_detection, nitro_gifts, message_to_reply, _token = create_settings()
         default_settings = {
             'Who are you?': f'{name}',
             'Token?': f'{_token}',
@@ -99,7 +99,7 @@ def read_settings(settings_file_path):
             'Do you want to auto reply to messages?': auto_reply,
             'Want to snipe Nitro gifts?': nitro_gifts,
             'Want to detect pings?': ping_detection,
-            'Custom Snipe Message?': f'{custom_snipe_message}'
+            'How would you like to reply to pings?': f'{message_to_reply}'
         }
         os.makedirs(os.path.dirname(settings_file_path), exist_ok=True)
         with open(settings_file_path, 'w') as file:
@@ -230,18 +230,26 @@ def main():
             print(f"Logged in as {private.user.name}")
             print(f"We support custom self-bot commands, use {prefix} help to get started.")
             load_cogs(private, prefix)
+
+
+
+        @private.listen("on_message")
+        async def automaticpingreply(message):
+            now = datetime.datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            if f'<@{private.user.id}>' in str(message.content):
+                log = open(f'Configuration/Logs/{now}-pings.txt', 'a', encoding="utf-8")
+                log.write(f"\n{current_time} >>PING DETECTED<<\nMessage: {message.content}\nAuthor: {message.author}\nServer: {message.guild.name}\nChannel Name: {message.channel.name}\nChannel ID: {message.channel.id}\n")
+                log.close()
+                async with message.channel.typing():
+                    time.sleep(1)
+                    msg = await message.reply(message_to_reply)
+                    print(Fore.LIGHTRED_EX + f"\n{current_time}", ">>", Fore.RED + "PING DETECTED", Fore.LIGHTRED_EX + "<<", f"\nAuthor: {message.author}\nChannel: {message.guild.name}\nChannel ID: {message.channel.id}\nMessage {message.content}\n")
+                    time.sleep(2)
+                    await msg.delete()
+                    
+                
             
-
-
-        #@private.event
-        #async def on_message(message):
-                    
-        #    if message.content.startswith(prefix) and message.author.id in allowed_user_ids:
-        #        await message.channel.send(message.content)
-        #        await process(message)
-                    
-        #    elif message.content.startswith(prefix):
-        #        Error_Line(f"Unauthorized access detetected From: {message.author}")
             
 
         private.run(token)
