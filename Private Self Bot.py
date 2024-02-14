@@ -104,6 +104,7 @@ def authentication():
 # Change the window title.
 def change_window_title(msg):
     ctypes.windll.kernel32.SetConsoleTitleW(f"{msg}")
+    sys.stdout.flush()
 
 # Read the Settings.json file.
 def read_settings(settings_file_path):
